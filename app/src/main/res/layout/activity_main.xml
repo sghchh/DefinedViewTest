@@ -9,9 +9,9 @@
     <com.example.as.definedviewtest.MyCircleImageView
         android:id="@+id/circle"
         android:src="@mipmap/old"
-        app:border_color="@color/colorPrimary"
-        app:border_width="4dp"
-        app:circle_radius="30dp"
+        app:border_color="@color/test"
+        app:border_width="1dp"
+        app:circle_radius="300dp"
         android:layout_width="80dp"
         android:layout_height="80dp" />
 

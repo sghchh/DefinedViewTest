@@ -8,10 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -171,24 +169,17 @@ public class MyCircleImageView extends android.support.v7.widget.AppCompatImageV
         Log.d("", "onDraw: ++++++++++++++");
 
         drawableToBitmap();
-
-        //content=getBitmapFromDrawable(getDrawable());
-        //content=getBitmap(getDrawable());
         BitmapShader shader=new BitmapShader(content, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         circlePaint.setShader(shader);
-
-
+        canvas.drawCircle(width/2,height/2,width/2-borderWidth/2,circlePaint);
 
         //canvas.save();
         //Path path=new Path();
         //path.addCircle(width/2,height/2,radius+borderWidth/2, Path.Direction.CCW);
-        ///canvas.clipPath(path);
-        canvas.drawCircle(width/2,height/2,radius,circlePaint);
-
-        canvas.drawCircle(width/2,height/2,width/2-borderWidth/2,widthPaint);
+        //canvas.clipPath(path);
+        //canvas.drawBitmap(content,new Matrix(),circlePaint);
         //canvas.restore();
-
-
+        canvas.drawCircle(width/2,height/2,width/2-borderWidth/2,widthPaint);
     }
 
     /**
@@ -241,51 +232,4 @@ public class MyCircleImageView extends android.support.v7.widget.AppCompatImageV
     }
 
 
-    private Bitmap getBitmapFromDrawable(Drawable drawable) {
-        if (drawable == null) {
-            return null;
-        }
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        try {
-            Bitmap bitmap;
-
-            if (drawable instanceof ColorDrawable) {
-                bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-            } else {
-                bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-            }
-
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-            Matrix matrix=new Matrix();
-            matrix.setScale(width/drawable.getIntrinsicWidth(),height/drawable.getIntrinsicHeight());
-            bitmap=Bitmap.createBitmap(bitmap,0,0,(int)width,(int)height,matrix,true);
-            return bitmap;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private Bitmap getBitmap(Drawable drawable){
-              if (drawable instanceof BitmapDrawable){
-                    return ((BitmapDrawable)drawable).getBitmap();
-                 } else if (drawable instanceof ColorDrawable){
-                     Rect rect = drawable.getBounds();
-                  int width = rect.right - rect.left;
-                       int height = rect.bottom - rect.top;
-                  int color = ((ColorDrawable)drawable).getColor();
-                Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                   Canvas canvas = new Canvas(bitmap);
-                     canvas.drawARGB(Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color));
-                     return bitmap;
-                 } else {
-                    return null;
-              }
-          }
 }
